@@ -1,0 +1,4 @@
+_workspaces
+csharp/Sample/bin
+csharp/Sample/obj
+csharp/Sample/*.gif
