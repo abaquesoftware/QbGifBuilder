@@ -23,7 +23,8 @@ class Program {
     // Generate a bitmap
     Bitmap cover = new Bitmap(220, 150);
     Graphics g = Graphics.FromImage(cover);
-    g.FillRectangle(Brushes.White, new Rectangle(0, 0, 220, 150));      
+    g.FillRectangle(Brushes.LemonChiffon, new Rectangle(0, 0, 219, 149)); 
+    g.DrawRectangle(new Pen(Brushes.Green), new Rectangle(0, 0, 219, 149));
     g.DrawString("QbGifBuilder", new Font("Tahoma",24), Brushes.Black, new RectangleF(5, 50, 210, 50));
     g.DrawRectangle(new Pen(Brushes.Green), new Rectangle(5, 5, 210, 38));
     g.DrawRectangle(new Pen(Brushes.Green), new Rectangle(6, 6, 208, 36));
