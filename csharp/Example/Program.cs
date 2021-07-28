@@ -9,9 +9,9 @@ using QbGif;
 class Program {
 
   
-  const string logoFilename = "./Sample-files/abaqueSoftware.png";
+  const string logoFilename = "./Example-files/abaqueSoftware.png";
 
-  const string morphingFilename = "./Sample-files/morphing.gif";
+  const string morphingFilename = "./Example-files/morphing.gif";
   const string outputFilename = "./animation.gif";
 
   static void Main(string[] args) {
@@ -23,8 +23,8 @@ class Program {
     // Generate a bitmap
     Bitmap cover = new Bitmap(220, 150);
     Graphics g = Graphics.FromImage(cover);
-    g.FillRectangle(Brushes.LemonChiffon, new Rectangle(0, 0, 219, 149)); 
-    g.DrawRectangle(new Pen(Brushes.Green), new Rectangle(0, 0, 219, 149));
+    g.FillRectangle(Brushes.LemonChiffon, new Rectangle(0, 0, 219, 149));      
+    g.DrawRectangle(new Pen(Brushes.Green), new Rectangle(0, 0, 219, 149));      
     g.DrawString("QbGifBuilder", new Font("Tahoma",24), Brushes.Black, new RectangleF(5, 50, 210, 50));
     g.DrawRectangle(new Pen(Brushes.Green), new Rectangle(5, 5, 210, 38));
     g.DrawRectangle(new Pen(Brushes.Green), new Rectangle(6, 6, 208, 36));
@@ -45,7 +45,7 @@ class Program {
     // Add an animated GIF with different delayPolicies
     // - - - - - - - - - - - - - - - - - - - - - - - - - -
     
-    // Note the original GIF (Sample-files/morphing.gif) contains 52 frames
+    // Note the original GIF (Example-files/morphing.gif) contains 52 frames
     // displayed with a delay of 100 ms per frame (total lasts 5.2 seconds) 
 
     using( var fileStream = new FileStream(morphingFilename, FileMode.Open)) {

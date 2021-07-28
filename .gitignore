@@ -1,4 +1,13 @@
 _workspaces
-csharp/Sample/bin
-csharp/Sample/obj
-csharp/Sample/*.gif
+csharp/.vscode
+csharp/Example/bin
+csharp/Example/obj
+csharp/Example/*.gif
+cplusplus/.vscode
+cplusplus/Example/*.x
+cplusplus/Example/*.o
+cplusplus/Example/*.gif
+cplusplus/ExampleWithQt/*.x
+cplusplus/ExampleWithQt/*.o
+cplusplus/ExampleWithQt/*.gif
+
