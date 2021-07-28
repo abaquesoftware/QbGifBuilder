@@ -4,9 +4,9 @@ This project provides an API to generate animated GIF in different languages for
   
 Available languages:  
   - C#  
+  - C++ (alone or with Qt)  
 
 Comming soon:  
-  - C++ (with libgdipus)  
   - Java (with JavaFX)  
 
 Please read the file < your-favorite-language >/README.md  
