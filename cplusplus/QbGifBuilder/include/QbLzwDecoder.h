@@ -13,8 +13,9 @@ class QbLzwDecoder {
   public: 
     static vector<__u_char> decode (int initialCodeSize, __u_char * bytes, const size_t len);
 
+#ifndef TDD_MODE
   private:
-     static vector<__u_short> convert8bitToNbitVector(int initialCodeSize, const __u_char * bytes, const size_t len);
+#endif
      static tuple<const QbLzwDictionaryEntry *, int> processCode(__u_short currentCode, 
                                                                  QbLzwDictionary &dictionary,
                                                                  const QbLzwDictionaryEntry *localCode,  

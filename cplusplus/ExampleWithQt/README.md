@@ -1,3 +1,3 @@
 Install Qt Dev environment (debian/ubuntu)
 
-apt install qt5-default 
+sudo apt install qt5-default 

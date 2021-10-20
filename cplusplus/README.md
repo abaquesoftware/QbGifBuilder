@@ -45,11 +45,11 @@ QbGifBuilder provides the following methods:
   
   **setDelayPolicy (QbGifdBuilder::DelayPolicy policy)**  
   Set the policy to compute frame delays when adding animated GIF.  
-  QbGuidBuilderDelayPolicy.IMAGE_ONLY:  
+  QbGuidBuilder::DP_IMAGE_ONLY:  
     Frame delay value will only be applied on image and animated GIF frame delays won't be modified (default).
-  QbGuidBuilderDelayPolicy.PER_FRAME:  
+  QbGuidBuilder::DP_PER_FRAME:  
     The same frame delay will be applied to all frames (images or frames from animated GIF)  
-  QbGuidBuilderDelayPolicy.GLOBAL:  
+  QbGuidBuilder::DP_GLOBAL:  
     The delay will be applied to the entire animation.  
   
 

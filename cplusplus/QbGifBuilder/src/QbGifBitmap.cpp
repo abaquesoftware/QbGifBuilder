@@ -113,16 +113,9 @@ vector<QbGifBitmap> QbGifBitmap::createQbGifBitmaps(istream &gifStream) {
   vector<QbGifBitmap> result;
   // Extract GifFrame from gifStream and convert them into QbGifMap
   vector<QbGifFrame *> frameList = QbGifFrame::createGifFrames(gifStream);
-
-  // Debug
-  bool first = true;
-
   for (auto frame: frameList) {
-    if( first ) {
-      QbGifBitmap bitmap = QbGifBitmap(frame);
-      result.push_back( bitmap );
-    }
-    first = false;
+    QbGifBitmap bitmap = QbGifBitmap(frame);
+    result.push_back( bitmap );
   }
   // Clean-up
   for (auto frame: frameList) {

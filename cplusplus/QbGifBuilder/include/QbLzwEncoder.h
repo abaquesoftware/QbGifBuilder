@@ -12,7 +12,9 @@ class QbLzwEncoder {
   public: 
     static vector<__u_char> encode (int initialCodeSize, __u_char * bytes, const size_t iLen);
 
+#ifndef TDD_MODE
   private:
+#endif
      static vector<__u_char> convertNbitTo8bitVector(int initialCodeSize, vector<const QbLzwDictionaryEntry *> entryList);
 };
 

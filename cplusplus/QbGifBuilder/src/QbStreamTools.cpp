@@ -13,6 +13,7 @@ void QbStreamTools::writeByte (ostream &stream, __u_char value) {
 
 int QbStreamTools::readByte (istream &stream) {
   __u_char bytes[1];
+  bytes[0] = 0xFF;
   stream.read((char*)bytes, 1);
   return bytes[0];
 }
@@ -26,6 +27,8 @@ void QbStreamTools::writeShort (ostream &stream, int value) {
 
 int QbStreamTools::readShort (istream &stream) {
   __u_char bytes[2];
+  bytes[0] = 0xFF;
+  bytes[1] = 0xFF;
   stream.read((char*)bytes, 2);
   return bytes[0] + bytes[1] * 256;
 }

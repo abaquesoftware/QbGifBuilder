@@ -6,7 +6,7 @@
 QbGifBuilder::QbGifBuilder() {
   // Default values
   this->defaultDelayInMs = 100;
-  this->delayPolicy = IMAGE_ONLY;
+  this->delayPolicy = DP_IMAGE_ONLY;
   this->nbRepetitions = 65535;
 }
 
@@ -60,14 +60,14 @@ void QbGifBuilder::addFrames(istream &stream, int delayInMs) {
 
     switch ( this->delayPolicy) {
 
-      case PER_FRAME: {
+      case DP_PER_FRAME: {
         for (QbGifFrame * frame : frameList) {
           frame->setDelayInMs(delayInMs);
         }
         break;
       }     
 
-      case GLOBAL: {
+      case DP_GLOBAL: {
         // Calculate total duration
         int totalDuration = 0;
         for (QbGifFrame * frame : frameList) {
@@ -81,8 +81,8 @@ void QbGifBuilder::addFrames(istream &stream, int delayInMs) {
         break;
       }
 
-      case UNKNOWN:
-      case IMAGE_ONLY:      
+      case DP_UNKNOWN:
+      case DP_IMAGE_ONLY:      
       default: {
         // do nothing
         break;
@@ -117,7 +117,7 @@ void QbGifBuilder::exportGif(ostream &outputStream) {
   QbGifFrame::writeNetscape20Extension(outputStream, this->nbRepetitions);
   // Insert frames
   for (auto frame : this->frameList) {
-    frame->writeLocalData(outputStream);
+    frame->writeLocalDataAndPayload(outputStream);
   }
   // terminator
   QbStreamTools::writeByte(outputStream, 0x3b);

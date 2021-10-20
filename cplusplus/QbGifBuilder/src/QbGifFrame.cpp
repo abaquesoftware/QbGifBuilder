@@ -275,7 +275,7 @@ void QbGifFrame::writeNetscape20Extension (ostream &stream, int nbRepetitions) {
   QbStreamTools::writeByte(stream, 0x00);
 }
 
-void QbGifFrame::writeLocalData (ostream &stream) {
+void QbGifFrame::writeLocalDataAndPayload (ostream &stream) {
 
   //   .............................
   //   Graphics Control Extension

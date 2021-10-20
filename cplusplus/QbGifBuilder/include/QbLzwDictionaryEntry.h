@@ -31,10 +31,11 @@ class QbLzwDictionaryEntry {
 
     ~QbLzwDictionaryEntry();
     bool operator <(const QbLzwDictionaryEntry &other) const;
+
+    // For debug and TDD (used by TDD scripts)
     string toString() const;
 
-    // private:
-      static string int_to_hex( int i, int size );
+    static string int_to_hex( int i, int size );
 };
 
 #endif // _QBLZWDICTINARYENTRY_H_

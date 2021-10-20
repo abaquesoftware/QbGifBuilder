@@ -4,9 +4,7 @@
 
 #include "QbLzwDictionary.h"
 
-// Debug
-#include "QbLzwDecoder.h"
-
+// #define DEBUG_MODE
 
 using namespace std;
 
@@ -52,10 +50,9 @@ vector<__u_char> QbLzwEncoder::encode (int initialCodeWidth, __u_char * bytes, c
     }
     entryList.push_back(foundEntry);
     entryLen = foundEntry->dataLength + 1;
-    if( (size_t)(entryLen + pos) < (size - 1) ) {
-      __u_short newCode = dictionary->addEntry(&bytes[pos], entryLen);
-      int limit = (1 << n);
-      if(newCode == ( (1 << n) ) ) {
+    if( (size_t)(entryLen + pos - 1) <= size ) {
+      __u_short newCode = dictionary->addEntry(&bytes[pos], entryLen);      
+      if(newCode == ( 1 << n ) ) {
         n++;
         entryList.push_back(dictionary->getCodeWidthChangeEntry());
       }
@@ -69,9 +66,11 @@ vector<__u_char> QbLzwEncoder::encode (int initialCodeWidth, __u_char * bytes, c
     pos += foundEntry->dataLength;
   }
   entryList.push_back(&stopEntry);
-  /*
+  
+#ifdef DEBUG_MODE
   // Debug
   std::cout << "...........................................\n";
+  std::cout << "ENCODER - List of dictionary entries\n";
   std::cout << "Code table size = " << std::to_string(dictionary->getEntryMapSize()) << "\n";
   std::cout << "Max entry size = " << std::to_string(dictionary->getMaxEntrySize()) << "\n";
   std::cout << "...........................................\n";
@@ -80,11 +79,14 @@ vector<__u_char> QbLzwEncoder::encode (int initialCodeWidth, __u_char * bytes, c
     std::cout << entryList[i]->toString() << "\n";
   }
   std::cout << "...........................................\n";
-  */  
+#endif
+   
   vector<__u_char> result = convertNbitTo8bitVector(initialCodeWidth, entryList);
-  /*
+  
+  #ifdef DEBUG_MODE
   // Debug
   std::cout << "...........................................\n";
+  std::cout << "ENCODER - final output (after Nbit->8bit conv.)\n";
   std::cout << "Result - size =" << result.size() << "\n";
   std::cout << "...........................................\n";
   for(size_t i = 0; i < result.size(); i++) {
@@ -93,7 +95,7 @@ vector<__u_char> QbLzwEncoder::encode (int initialCodeWidth, __u_char * bytes, c
   }
   std::cout << "\n";
   std::cout << "...........................................\n";
-
+  /*
   // Debug
   __u_char *debugBytes = (__u_char *)malloc(result.size());
   for(size_t i = 0; i < result.size(); i++) {
@@ -102,6 +104,7 @@ vector<__u_char> QbLzwEncoder::encode (int initialCodeWidth, __u_char * bytes, c
   vector<__u_char> debug = QbLzwDecoder::decode(initialCodeWidth, debugBytes, result.size());
   free(debugBytes);
   */
+#endif
 
   // Clean-up :
   for (QbLzwDictionary *dictionary : dictionaryList) {
@@ -115,6 +118,7 @@ vector<__u_char> QbLzwEncoder::convertNbitTo8bitVector(int initialCodeWidth, vec
   vector<__u_char> result;
   int clearCode = 1 << initialCodeWidth;
   int codeWidth = initialCodeWidth  + 1;
+  bool output_remains = false;
   __u_char output = 0;
   int outputPos = 0;
   for( auto entry : entryList) {
@@ -122,6 +126,7 @@ vector<__u_char> QbLzwEncoder::convertNbitTo8bitVector(int initialCodeWidth, vec
     switch (entry->type) {
       case QbLzwDictionaryEntry::EntryType::CODE : {
         for( int inputPos = 0; inputPos < codeWidth; inputPos++ ) {
+          output_remains = true;
           int bit = (input & (1 << inputPos) );
           if( bit ) {
             output |= ( 1 << outputPos );
@@ -131,6 +136,7 @@ vector<__u_char> QbLzwEncoder::convertNbitTo8bitVector(int initialCodeWidth, vec
             result.push_back(output);
             output = 0;
             outputPos = 0;
+            output_remains = false;
           }
         }
         break;
@@ -146,5 +152,10 @@ vector<__u_char> QbLzwEncoder::convertNbitTo8bitVector(int initialCodeWidth, vec
       codeWidth = initialCodeWidth  + 1;
     }
   }
+
+  if (output_remains) {
+    result.push_back(output);
+  }
+
   return result;
 }

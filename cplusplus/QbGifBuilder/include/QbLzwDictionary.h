@@ -31,9 +31,11 @@ class QbLzwDictionary {
     void clearAll();
     const QbLzwDictionaryEntry * getEntryByData (__u_char * decoded, long pos, int len);
     const QbLzwDictionaryEntry * getEntryByCode (__u_short code);
-    __u_short addEntry ( __u_char * entry, long entryLen );
-    __u_short addEntry ( const QbLzwDictionaryEntry *, __u_char lastByte );
-    void addCodeWidthChangeEntry(int newCodeWidth);
+    __u_short addEntry (__u_char * entry, long entryLen);
+    __u_short addEntry (const QbLzwDictionaryEntry *, __u_char lastByte);
+
+  private:
+    __u_short addRawEntry (__u_char * entry, long entryLen, bool mapByData);
 };
 
 #endif // _QBLZWDICTINARY_H_

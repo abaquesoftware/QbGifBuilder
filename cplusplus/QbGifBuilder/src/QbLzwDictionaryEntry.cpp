@@ -69,6 +69,7 @@ bool QbLzwDictionaryEntry::operator <(const QbLzwDictionaryEntry &other) const {
   return result;
 }
 
+// For debug and TDD (used by TDD scripts)
 string QbLzwDictionaryEntry::toString() const {
   string result = "";
   switch (this->type) {
@@ -91,7 +92,7 @@ string QbLzwDictionaryEntry::toString() const {
 
 // Convert int to hexa string
 string QbLzwDictionaryEntry::int_to_hex( int value, int size ) {
-  stringstream stream; 
+  stringstream stream;
   stream << "0x" << setfill ('0') << setw(size)  << hex << value;
   return stream.str();
 }

@@ -14,10 +14,13 @@ using namespace std;
 class QbGifBuilder {
 
   public:
-    enum DelayPolicy { UNKNOWN, IMAGE_ONLY, GLOBAL, PER_FRAME };
+    enum DelayPolicy { DP_UNKNOWN, DP_IMAGE_ONLY, DP_GLOBAL, DP_PER_FRAME };
 
-  // private:
+#ifdef TDD_MODE
   public:
+#else
+  private:
+#endif
     vector<QbGifFrame *> frameList;
     DelayPolicy delayPolicy;
 
@@ -39,9 +42,6 @@ class QbGifBuilder {
     void addFrames(istream &gifStream, int delayInMs);
 
     void exportGif(ostream &outputStream);
-
-    // Conver GIF stream -> QbGifBitmap 
-    vector<QbGifBitmap> createQbGifBitmaps(istream &gifStream);
 };
 
 #endif // _QBGIFBUILDER_H_

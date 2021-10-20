@@ -11,6 +11,9 @@ using namespace std;
 
 class QbGifFrame {
 
+#ifdef TDD_MODE
+  public:
+#endif
   // globalData = Logical Screen Descriptor + Global Color Table
   struct GlobalData {
     int width;
@@ -54,7 +57,9 @@ class QbGifFrame {
     GlobalData globalData;
     LocalData localData; 
     
+#ifndef TDD_MODE
   private:
+#endif
     // CTOR
     QbGifFrame ();
     QbGifFrame (GlobalData *globalData);
@@ -74,9 +79,11 @@ class QbGifFrame {
 
     static void writeGlobalData (ostream &stream, int width, int height);
     static void writeNetscape20Extension (ostream &stream, int nbRepetitions);
-    void writeLocalData (ostream &stream);
+    void writeLocalDataAndPayload (ostream &stream);
     
+#ifndef TDD_MODE
   private:
+#endif
     void parseGlobalData(istream &stream);
     void readImageDescriptorAndPayload(istream &stream);
     void readGraphicControlExtension(istream &stream);

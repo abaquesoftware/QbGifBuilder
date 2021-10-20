@@ -86,14 +86,14 @@ int main(int argc, char **argv) {
   builder.addFrames(morphingGifStream);
   // GIF inserted with a constant framerate of 20ms per frame
   morphingGifStream.seekg(morphingGifStream.beg);
-  builder.setDelayPolicy(QbGifBuilder::DelayPolicy::PER_FRAME);
+  builder.setDelayPolicy(QbGifBuilder::DelayPolicy::DP_PER_FRAME);
   builder.addFrames(morphingGifStream, 20);
   // Note: 20 ms is the minimum delay.
   // If you specify a delay < 20ms, the frame delay will be forced to 20ms
   // 
   // GIF inserted with a framerate modified so that sequence will be played in 10s
   morphingGifStream.seekg(morphingGifStream.beg);
-  builder.setDelayPolicy(QbGifBuilder::DelayPolicy::GLOBAL);
+  builder.setDelayPolicy(QbGifBuilder::DelayPolicy::DP_GLOBAL);
   builder.addFrames(morphingGifStream, 10000);
   // close the GIF file stream
   morphingGifStream.close();

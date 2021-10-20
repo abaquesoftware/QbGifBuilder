@@ -42,8 +42,8 @@ int QbLzwDictionary::getMaxEntrySize() {
 }
 
 int QbLzwDictionary::getEntryMapSize() {
-  // return this->entryMap.size();
-  return this->nextEntryCode - 1;
+  // return this->entryMapByCode.size();
+  return this->nextEntryCode;
 }
 
 QbLzwDictionaryEntry * QbLzwDictionary::getCodeWidthChangeEntry() {
@@ -58,41 +58,48 @@ void QbLzwDictionary::clearAll() {
   // Create the first 256 elements
   this->nextEntryCode = 0;
   u_char byte;
-  for( int i = 0 ;i <= ( 1 << initialCodeWidth); i++) {
+  for( int i = 0 ;i < ( 1 << initialCodeWidth); i++) {
     u_char byte = i;
     this->addEntry( &byte, 1 );
-  }  
-  // Skip 0x100 and 0x101
-  this->nextEntryCode = ( 1 << initialCodeWidth) + 2; 
+  }
+  // Add 0x100 and 0x101
+  byte = 0;
+  this->addRawEntry(&byte, 1, false);
+  this->addRawEntry(&byte, 1, false);
+  
 }
 
 __u_short QbLzwDictionary::addEntry(__u_char * bytes, long len) {
   __u_short entryCode = ERROR_CODE;
-  if (this->entryMapByCode.size() < MAX_NB_ENTRIES) {
-    if(len > this->maxEntrySize) {
-      this->maxEntrySize = len;    
-    }    
-    entryCode = this->nextEntryCode++;
-    QbLzwDictionaryEntry newEntry(bytes, len, entryCode);
-    this->entryMapByData.insert( pair<QbLzwDictionaryEntry, __u_short>(newEntry, entryCode) );
-    this->entryMapByCode.insert( pair<__u_short, QbLzwDictionaryEntry>(entryCode, newEntry) );
+  if (this->getEntryMapSize() < MAX_NB_ENTRIES) {   
+    entryCode = this->addRawEntry(bytes, len, true);
   }
   return entryCode;
 }
 
 __u_short QbLzwDictionary::addEntry(const QbLzwDictionaryEntry * entry, __u_char lastByte) {  
-__u_short entryCode = ERROR_CODE;
-if (this->entryMapByCode.size() < MAX_NB_ENTRIES) {
+  __u_short entryCode = ERROR_CODE;
+  if (this->getEntryMapSize() < MAX_NB_ENTRIES) {
     __u_char bytes[entry->dataLength + 1];
     for (int i = 0; i < entry->dataLength; i++ ) {
       bytes[i] = entry->data[i];
     }
     bytes[entry->dataLength] = lastByte;
-
-    entryCode = this->nextEntryCode++;
-    QbLzwDictionaryEntry newEntry(bytes, entry->dataLength + 1, entryCode);
-    this->entryMapByData.insert( pair<QbLzwDictionaryEntry, __u_short>(newEntry, entryCode) );
-    this->entryMapByCode.insert( pair<__u_short, QbLzwDictionaryEntry>(entryCode, newEntry) );
+    entryCode = this->addRawEntry(bytes, entry->dataLength + 1, true);
   }
   return entryCode;
 }
+
+__u_short QbLzwDictionary::addRawEntry( __u_char * entry, long entryLen, bool mapByData) {
+    __u_short entryCode = this->nextEntryCode;
+    QbLzwDictionaryEntry newEntry(entry, entryLen, entryCode);
+    if(entryLen > this->maxEntrySize) {
+      this->maxEntrySize = entryLen;    
+    }     
+    if ( mapByData ) {
+      this->entryMapByData.insert( pair<QbLzwDictionaryEntry, __u_short>(newEntry, entryCode) );
+    }
+    this->entryMapByCode.insert( pair<__u_short, QbLzwDictionaryEntry>(entryCode, newEntry) );
+    this->nextEntryCode++;
+    return entryCode;
+ }
