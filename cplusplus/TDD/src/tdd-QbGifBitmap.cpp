@@ -8,7 +8,7 @@
 using namespace std;
 using namespace Catch::Matchers;
 
-TEST_CASE( "constructors", "[QbGifBitmap]" ) {
+TEST_CASE( "QbGifBitmap - constructors", "[QbGifBitmap]" ) {
 
   // CTOR: QbGifBitmap (int width, int height)
 

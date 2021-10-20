@@ -10,4 +10,5 @@ cplusplus/Example/*.gif
 cplusplus/ExampleWithQt/*.x
 cplusplus/ExampleWithQt/*.o
 cplusplus/ExampleWithQt/*.gif
+cplusplus/TDD/bin/*
 
